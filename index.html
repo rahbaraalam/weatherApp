@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather app</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+    .container{
+        width: 50%;
+        background:url("weatherPic2.gif");
+        /* background-color: red; */
+        margin: auto;
+        padding: 10px;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    h1{
+        color:rgb(252, 252, 252);
+        text-shadow: 5px 5px 5px rgb(0, 0, 0);
+        font-size:3em;
+        margin-bottom: 45px;
+        margin-top: 25px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    header{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        /* width: 100%; */
+        margin-bottom: 35px;
+    }
+    input{
+        width: 70%;
+    }
+    button{
+        width: 20%;
+        cursor: pointer;
+        
+    }
+    input,button{
+        padding: 10px;
+        font-size: 14px;
+        color: black;
+        border: none;
+        outline: none;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+    input[placeholder]{
+        font-size: 1.2em;
+        color: black;
+    }
+    h3,h4,p{
+        margin-bottom: 15px;
+        color: white;
+        text-transform: capitalize;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    @media (width < 678px){
+        .container{
+            width: 100%;
+        }
+        h1{
+        color:rgb(252, 252, 252);
+        text-shadow: 5px 5px 5px rgb(0, 0, 0);
+        font-size:3em;
+        margin-bottom: 35px;
+        margin-top: 25px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+        header{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+        input{
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 4px;
+
+        }
+        button{
+            /* color: white; */
+            font-size: 1.2em;
+            padding: 4px;
+        }
+       
+
+    }
+
+</style>
+<body>
+    <div class="container">
+            <h1>A project using  <span> <a href="https://www.weatherapi.com/">Weather API</a> </span> <br>Get Weather Details of any City</h1>
+        <header>
+            <input type="text" placeholder="Enter city name" id="city">
+            <button id="search">Search</button>
+        </header>
+        <main>
+            <h3 id="city-name">mumbai , india</h3>
+            <h4 id="city-time">local time</h4>
+            <p id="city-temp">temp</p>
+        </main>
+    </div>
+    <script>
+        const inputValue = document.getElementById("city")
+        const btn = document.getElementById("search")
+        const cityName = document.getElementById("city-name")
+        const CityTime = document.getElementById("city-time")
+        const cityTemp = document.getElementById("city-temp")
+
+        
+        async function getData(cityname){
+            const promise =await fetch(`http://api.weatherapi.com/v1/current.json?key=a03358408ee0483588d30252242402&q=${cityname}&aqi=no`);
+
+            return await promise.json()
+
+        }
+
+        btn.addEventListener("click",async()=>{
+            
+            const value = inputValue.value
+            const result = await getData(value)
+            console.log(result)
+            cityName.innerText=`${result.location.name} ${result.location.region} - ${result.location.country}`
+            CityTime.innerText=`Time: ${result.location.localtime}`
+            cityTemp.innerText=`Temperature: ${result.current.temp_c}°C`
+        })
+        //http://api.weatherapi.com/v1/current.json?key=a03358408ee0483588d30252242402&q=mumbai&aqi=no
+
+    </script>
+</body>
+</html>
